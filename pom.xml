@@ -48,5 +48,25 @@
   </dependencies>
   <build>
     <finalName>api</finalName>
+    <pluginManagement>
+        <plugins>
+	        <plugin>
+	        <artifactId>maven-war-plugin</artifactId>
+	        <version>2.1.1</version>
+	        <configuration>
+                <webXml>WebContent\WEB-INF\web.xml</webXml>        
+            </configuration>
+	        <executions>
+	          <execution>
+	            <id>default-war</id>
+	            <phase>package</phase>
+	            <goals>
+	              <goal>war</goal>
+	            </goals>
+	          </execution>
+	        </executions>
+	      </plugin>
+        </plugins>
+    </pluginManagement>
   </build>
 </project>
