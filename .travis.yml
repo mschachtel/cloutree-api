@@ -1,0 +1,10 @@
+language: java
+install: mvn install -DskipTests=true -Dgpg.skip=true
+jdk:
+  - oraclejdk7
+notifications:
+ email:
+  recipients:
+   - schachtel.marc@googlemail.com
+  on_success: always # [always|never|change] # default: always
+  on_failure: always # [always|never|change] # default: always

@@ -19,3 +19,4 @@ target/*
 
 # Locally stored "Eclipse launch configurations"
 *.launch
+/target

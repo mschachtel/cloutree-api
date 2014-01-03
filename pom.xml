@@ -11,8 +11,34 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.8.1</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+    	<groupId>net.sf.flexjson</groupId>
+    	<artifactId>flexjson</artifactId>
+    	<version>3.1</version>
+    </dependency>
+    <dependency>
+    	<groupId>com.kenai.nbpwr</groupId>
+    	<artifactId>org-apache-commons-logging</artifactId>
+    	<version>1.0.4-201003011305</version>
+    	<type>nbm</type>
+    </dependency>
+    <dependency>
+    	<groupId>org.apache.directory.studio</groupId>
+    	<artifactId>org.apache.httpcomponents.httpcore</artifactId>
+    	<version>4.1.2</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.apache.directory.studio</groupId>
+    	<artifactId>org.apache.httpcomponents.httpclient</artifactId>
+    	<version>4.1.2</version>
+    </dependency>
+    <dependency>
+    	<groupId>com.cloutree</groupId>
+    	<artifactId>modelevaluator</artifactId>
+    	<version>1.2-SNAPSHOT</version>
     </dependency>
   </dependencies>
   <build>
