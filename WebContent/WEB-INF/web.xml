@@ -3,14 +3,28 @@
 
   <display-name>Cloutree-API</display-name>
   
+  <listener>
+   <listener-class>com.cloutree.api.servlet.StartupListener</listener-class>
+  </listener>
+  
     <servlet>
         <servlet-name>ApiPushServlet</servlet-name>
         <servlet-class>com.cloutree.api.servlet.ApiPushServlet</servlet-class>
     </servlet>
     
+    <servlet>
+        <servlet-name>ModelEvaluationServlet</servlet-name>
+        <servlet-class>com.cloutree.api.servlet.ModelEvaluationServlet</servlet-class>
+    </servlet>
+    
     <servlet-mapping>
         <servlet-name>ApiPushServlet</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/push</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>ModelEvaluationServlet</servlet-name>
+        <url-pattern>/eval</url-pattern>
     </servlet-mapping>
   
 </web-app>

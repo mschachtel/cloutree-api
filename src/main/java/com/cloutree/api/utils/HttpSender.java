@@ -152,7 +152,6 @@ public class HttpSender {
 			log.log(Level.SEVERE,e.getMessage());
 			return null;
 		}
-		
 	}
 	
 }

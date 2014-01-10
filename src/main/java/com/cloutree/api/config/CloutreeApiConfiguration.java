@@ -23,14 +23,15 @@ public class CloutreeApiConfiguration {
 	private static boolean initiated = false;
 	
 	/** PROPERTIES KEYS **/
+	public static String SERVER_IP = "server.ip";
+	public static String SERVER_TENANT = "server.tenant";
 	public static String API_VERSION = "api.version";
-	public static String API_USER = "api.user";
-	public static String API_PASS = "api.pass";
+	public static String API_SERVER_USER = "api.server.user";
+	public static String API_SERVER_PASS = "api.server.pass";
 	public static String API_TEMPDIR = "api.tempdir";
 	public static String SERVER_REGISTER_URL = "server.register.url";
+	public static String SERVER_UNREGISTER_URL = "server.unregister.url";
 	public static String SERVER_FILEDOWNLOAD_URL = "server.filedownload.url";
-	public static String SERVER_TENANT = "server.tenant";
-	public static String SERVER_INSTANCE = "server.instance";
 	public static String API_NAME = "api.name";
 	
 	public static void init() throws FileNotFoundException, IOException {

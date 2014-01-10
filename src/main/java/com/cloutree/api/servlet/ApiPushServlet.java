@@ -7,8 +7,6 @@ package com.cloutree.api.servlet;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,12 +15,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.http.HttpResponse;
-
 import com.cloutree.api.config.CloutreeApiConfiguration;
-import com.cloutree.api.utils.HttpSender;
 import com.cloutree.server.api.pojo.ActiveModel;
 import com.cloutree.server.api.pojo.ApiJsonObject;
+import com.cloutree.server.api.pojo.ApiModelIdentifier;
 import com.cloutree.server.api.pojo.InstanceActiveModels;
 
 import flexjson.JSONDeserializer;
@@ -37,32 +33,6 @@ public class ApiPushServlet extends HttpServlet {
 	static Logger log = Logger.getLogger(ApiPushServlet.class.getName());
 	
 	private static final long serialVersionUID = 1L;
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		Map<String, String> parameters = new HashMap<String, String>();
-		
-		String user =  CloutreeApiConfiguration.getProperty(CloutreeApiConfiguration.API_USER);
-		String pass =  CloutreeApiConfiguration.getProperty(CloutreeApiConfiguration.API_PASS);
-		String tenant =  CloutreeApiConfiguration.getProperty(CloutreeApiConfiguration.SERVER_TENANT);
-		String instance =  CloutreeApiConfiguration.getProperty(CloutreeApiConfiguration.SERVER_INSTANCE);
-		String apiName =  CloutreeApiConfiguration.getProperty(CloutreeApiConfiguration.API_NAME);
-		
-		String uri =  CloutreeApiConfiguration.getProperty(CloutreeApiConfiguration.SERVER_REGISTER_URL);
-		
-		parameters.put("CLOUTREE:USER", user);
-		parameters.put("CLOUTREE:PASS", pass);
-		parameters.put("CLOUTREE:TENANT", tenant);
-		parameters.put("CLOUTREE:INSTANCE", instance);
-		parameters.put("CLOUTREE:APINAME", apiName);
-		
-		HttpResponse serverResponse = HttpSender.sendHttpPost(uri, parameters);
-		
-		if(serverResponse != null) serverResponse.getEntity().writeTo(response.getOutputStream());
-		
-		// TODO store models
-
-	}
 
 	/* (non-Javadoc)
 	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -71,6 +41,15 @@ public class ApiPushServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 		log.log(Level.INFO, "Received Push from " + req.getRemoteHost());
+		
+		String serverIp = CloutreeApiConfiguration.getProperty(CloutreeApiConfiguration.SERVER_IP);
+		
+		if(!req.getRemoteHost().equals(serverIp)) {
+			log.log(Level.WARNING, "Received Push-Request from " + req.getRemoteHost() + " but my server should be " + serverIp);
+			resp.sendError(401, "Not an authorized server!");
+			return;
+		}
+		
 		String body;
 		StringBuilder stringBuilder = new StringBuilder();
 		
@@ -109,7 +88,8 @@ public class ApiPushServlet extends HttpServlet {
 		
 		ActiveModelCache cache = ActiveModelCache.getCache(this.getServletContext());
 		for(ActiveModel activeModel : activeModels.getActiveModels()) {
-			cache.put(activeModel.getModelName(), activeModel);
+			ApiModelIdentifier id = new ApiModelIdentifier(activeModel.getModelName(), apiJsonObject.getTenant(), String.valueOf(activeModel.getInstance()), activeModels.getSecret());
+			cache.put(id, activeModel);
 			log.log(Level.INFO, "Added " + activeModel.getModelName() + " to cache");
 		}
 		
